@@ -3,6 +3,7 @@ package com.gigamog.Controller;
 import java.awt.PageAttributes.MediaType;
 import java.util.Collection;
 
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gigamog.Entity.Student;
+import com.gigamog.Exceptions.UnauthorizedHttpException;
 import com.gigamog.Service.StudentService;
 
 @RestController
@@ -35,6 +37,8 @@ public class StudentController {
 		studentService.removeStudentById(id);
 	}
 	
+
+	
 	@RequestMapping(method= RequestMethod.PUT)
 	public void updateStudent(@RequestBody Student student){
 		studentService.updateStudent(student);
@@ -43,5 +47,10 @@ public class StudentController {
 	@RequestMapping(method= RequestMethod.POST)
 	public void insertStudent(@RequestBody Student student){
 		studentService.insertStudent(student);
+	}
+	
+	@RequestMapping(value = "/testError",method= RequestMethod.GET)
+	public void testError(){
+		throw new UnauthorizedHttpException("testing");
 	}
 }
